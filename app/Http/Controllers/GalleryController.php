@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-    function view( $page = null )
+    function view($page = null)
     {
         if ($page === null) {
             $page = Storage::disk('public')->allDirectories();
@@ -15,9 +15,15 @@ class GalleryController extends Controller
         }
 
         $photos = Storage::disk('public')->allFiles($page);
+        $meta = json_decode(Storage::get('photos.json'));
 
         $directories = array_reverse(Storage::disk('public')->directories());
 
-        return view('gallery', compact('photos', 'page', 'directories'));
+        if (($key = array_search('thumbnail', $directories)) !== false) {
+            unset($directories[$key]);
+
+        }
+
+        return view('gallery', compact('photos', 'meta', 'page', 'directories'));
     }
 }

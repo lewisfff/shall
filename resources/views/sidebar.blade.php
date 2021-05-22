@@ -2,9 +2,9 @@
     @foreach($photos as $photo)
                 <div class="image">
                     <a href="#{{ $photo }}">
-                        <img src="{{ '/storage/thumbnail/' . $photo }}" class="img-fluid"
+                        <img src="{{ '/thumbnail/' . $photo }}" class="img-fluid" loading="lazy"
                              alt="{{ $photo }}"
-                             width="160" height="auto">
+                             width="{{ $meta->$photo->width / 10 }}" height="{{ $meta->$photo->height / 10 }}">
                     </a>
                 </div>
     @endforeach

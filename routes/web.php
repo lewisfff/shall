@@ -18,4 +18,5 @@ use Illuminate\Support\Facades\Route;
 //    return view('gallery');
 //});
 
-Route::get('/{any?}', [GalleryController::class, 'view'])->where('any', '.*');
+Route::get('/{any?}', [GalleryController::class, 'view'])->where('any', '^(?!thumbnail).*$');
+

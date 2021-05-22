@@ -50,14 +50,15 @@ class Process extends Command
         $directories = Storage::disk('photos')->allDirectories();
         $photos = Storage::disk('photos')->allFiles();
         $image_width = Config::get('photo.width');
+        $json = [];
 
         foreach ($directories as $directory) {
             Storage::disk('public')->makeDirectory($directory);
-            Storage::disk('public')->makeDirectory('/thumbnail/' . $directory);
+            Storage::disk('thumbnail')->makeDirectory($directory);
         }
 
         foreach ($photos as $photo) {
-            if (Storage::disk('public')->missing($photo)) {
+            if (Storage::disk('public')->missing($photo) || Storage::disk('thumbnail')->missing($photo)) {
                 $this->info('Processing photo ' . $photo);
 
                 $source_photo = Storage::disk('photos')->path($photo);
@@ -67,14 +68,21 @@ class Process extends Command
                     $constraint->aspectRatio();
                 });
 
-                $image->save(public_path() . '/storage/' . $photo, 92, 'jpg');
+                $image->save(public_path() . '/storage/' . $photo, 88, 'jpg');
+
+                $json[$photo] = [
+                    'height' => $image->height(),
+                    'width' => $image_width,
+                ];
 
                 $image->resize($image_width / 10, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
-                $image->save(public_path() . '/storage/thumbnail/' . $photo, 77, 'jpg');
+                $image->save(storage_path() . '/app/thumbnail/' . $photo, 77, 'jpg');
             }
         }
+
+        Storage::put('photos.json', json_encode($json));
 
         $time = $start->diffInSeconds(now());
         $this->comment("Processed in $time seconds");

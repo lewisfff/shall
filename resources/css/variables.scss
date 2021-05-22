@@ -105,13 +105,18 @@ body {
 }
 
 .image img {
-    max-height: 100vh;
-    width: auto;
+    //max-height: 100vh;
+    //width: auto;
     display: inline-block
 }
 
 a.nav-link {
     padding: 0
+}
+
+.img-fluid[class] {
+    max-width: 100%;
+    width: auto !important;
 }
 
 main[class] {

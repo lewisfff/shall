@@ -47,6 +47,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'thumbnail' => [
+            'driver' => 'local',
+            'root' => storage_path('app/thumbnail'),
+            'url' => env('APP_URL').'/thumbnail',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

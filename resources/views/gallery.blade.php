@@ -7,14 +7,15 @@
     </div>
 
     @foreach($photos as $photo)
+
         <div class="row">
             <div class="col">
                 <div class="imageTarget" id="{{ $photo }}"></div>
                 <div class="image">
                     <a target="_blank" href="{{ '/source/' . $photo }}">
-                        <img src="/blank.gif" data-src="{{ '/storage/' . $photo }}" class="img-fluid lazy"
+                        <img src="{{ '/storage/' . $photo }}" class="img-fluid lazy"
                              alt="{{ $photo }}"
-                             width="1600" height="auto">
+                             style="width: {{ $meta->$photo->width }}px; height: {{ $meta->$photo->height }}px">
                     </a>
                 </div>
             </div>
