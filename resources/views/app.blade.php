@@ -41,6 +41,11 @@
         @yield('content')
 
     </main>
+
+    @if (isset($photos))
+        @include('sidebar')
+    @endif
+
 </div>
 
 <script src="{{ mix('js/app.js') }}"></script>

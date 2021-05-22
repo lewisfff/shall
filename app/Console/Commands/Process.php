@@ -53,6 +53,7 @@ class Process extends Command
 
         foreach ($directories as $directory) {
             Storage::disk('public')->makeDirectory($directory);
+            Storage::disk('public')->makeDirectory('/thumbnail/' . $directory);
         }
 
         foreach ($photos as $photo) {
@@ -67,6 +68,11 @@ class Process extends Command
                 });
 
                 $image->save(public_path() . '/storage/' . $photo, 92, 'jpg');
+
+                $image->resize($image_width / 10, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $image->save(public_path() . '/storage/thumbnail/' . $photo, 77, 'jpg');
             }
         }
 

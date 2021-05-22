@@ -116,6 +116,47 @@ a.nav-link {
   padding: 0;
 }
 
+main[class] {
+  padding-right: 180px !important;
+}
+
+@media (max-width: 768px) {
+  main[class] {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+  .minimap {
+    display: none;
+  }
+}
+.minimap {
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  right: -24px;
+  left: initial;
+}
+.minimap .image {
+  margin-bottom: 0.8rem;
+}
+.minimap:hover .image {
+  opacity: 0.6;
+}
+.minimap:hover .image:hover {
+  opacity: 1;
+}
+
+header[class] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+header[class] a {
+  background: #333;
+}
+
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

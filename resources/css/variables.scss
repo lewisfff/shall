@@ -112,3 +112,45 @@ body {
 a.nav-link {
     padding: 0
 }
+
+main[class] {
+    padding-right: 180px !important;
+}
+@media (max-width: 768px) {
+    main[class] {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+    .minimap {
+        display: none;
+    }
+}
+
+.minimap {
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    right: -24px;
+    left: initial;
+    .image {
+        margin-bottom: .8rem;
+    }
+    &:hover {
+        .image {
+            opacity: .6;
+        }
+        .image:hover {
+            opacity: 1;
+        }
+    }
+}
+
+header[class] {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    a {
+        background: #333;
+    }
+}

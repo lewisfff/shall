@@ -74,10 +74,8 @@
       images.push(query[i]);
     };
 
-console.log('yes');
     processScroll();
     addEventListener('scroll',processScroll);
 
 }(this);
 
-console.log('test');

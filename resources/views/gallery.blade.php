@@ -9,6 +9,7 @@
     @foreach($photos as $photo)
         <div class="row">
             <div class="col">
+                <div class="imageTarget" id="{{ $photo }}"></div>
                 <div class="image">
                     <a target="_blank" href="{{ '/source/' . $photo }}">
                         <img src="/blank.gif" data-src="{{ '/storage/' . $photo }}" class="img-fluid lazy"

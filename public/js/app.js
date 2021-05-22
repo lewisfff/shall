@@ -76,11 +76,9 @@
   }
 
   ;
-  console.log('yes');
   processScroll();
   addEventListener('scroll', processScroll);
 }(this);
-console.log('test');
 
 /***/ }),
 
