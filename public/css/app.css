@@ -117,6 +117,7 @@ a.nav-link {
 .img-fluid[class] {
   max-width: 100%;
   width: auto !important;
+  overflow: auto;
 }
 
 main[class] {
@@ -163,6 +164,10 @@ header[class] {
 }
 header[class] a {
   background: #333;
+}
+
+.lazy {
+  background-size: 100% 100%;
 }
 
 /*!

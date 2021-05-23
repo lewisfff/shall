@@ -13,9 +13,12 @@
                 <div class="imageTarget" id="{{ $photo }}"></div>
                 <div class="image">
                     <a target="_blank" href="{{ '/source/' . $photo }}">
-                        <img src="{{ '/storage/' . $photo }}" class="img-fluid lazy"
+                        <img class="img-fluid lazyload lazy"
+                             data-src="{{ '/storage/' . $photo }}"
+                             loading="lazy"
                              alt="{{ $photo }}"
-                             style="width: {{ $meta->$photo->width }}px; height: {{ $meta->$photo->height }}px">
+                             width="{{ $meta->$photo->width }}px" height="{{ $meta->$photo->height }}px"
+                             style="background-image: url('{{ '/thumbnail/' . $photo }}')">
                     </a>
                 </div>
             </div>

@@ -7,114 +7,28 @@
   \*****************************/
 /***/ (() => {
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+document.addEventListener('DOMContentLoaded', function () {
+  if ('loading' in HTMLImageElement.prototype) {
+    var images = document.querySelectorAll('img.lazy');
+    var windowHeight = window.innerHeight;
+    var containerWidth = document.querySelector('.image').clientWidth;
+    images.forEach(function (img) {
+      if (parseInt(img.style.height, 10) > windowHeight) {
+        img.style.height = windowHeight + 'px';
+      } else {
+        var ratio = parseInt(img.width, 10) / parseInt(img.height, 10);
+        img.style.height = containerWidth / ratio + 'px';
+      }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-// loop through images and clamp the height to browser height
-var images = document.querySelectorAll('img.lazy');
-var windowHeight = window.innerHeight;
-
-var images_array = _toConsumableArray(images); // converts NodeList to Array
-
-
-images_array.forEach(function (image) {
-  console.log(image.style.height, windowHeight);
-
-  if (parseInt(image.style.height, 10) > windowHeight) {
-    image.style.height = windowHeight + 'px';
+      img.src = img.dataset.src;
+    });
+  } else {
+    var script = document.createElement("script");
+    script.async = true;
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.8/lazysizes.min.js";
+    document.body.appendChild(script);
   }
 });
-/* lazyload.js (c) Lorenzo Giuliani
- * MIT License (http://www.opensource.org/licenses/mit-license.html)
- *
- * expects a list of:
- * `<img src="blank.gif" data-src="my_image.png" width="600" height="400" class="lazy">`
- */
-// !function (window) {
-//
-//     var $q = function (q, res) {
-//             if (document.querySelectorAll) {
-//                 res = document.querySelectorAll(q);
-//             } else {
-//                 var d = document
-//                     , a = d.styleSheets[0] || d.createStyleSheet();
-//                 a.addRule(q, 'f:b');
-//                 for (var l = d.all, b = 0, c = [], f = l.length; b < f; b++)
-//                     l[b].currentStyle.f && c.push(l[b]);
-//
-//                 a.removeRule(0);
-//                 res = c;
-//             }
-//             return res;
-//         }
-//         , addEventListener = function (evt, fn) {
-//             window.addEventListener
-//                 ? this.addEventListener(evt, fn, false)
-//                 : (window.attachEvent)
-//                 ? this.attachEvent('on' + evt, fn)
-//                 : this['on' + evt] = fn;
-//         }
-//         , _has = function (obj, key) {
-//             return Object.prototype.hasOwnProperty.call(obj, key);
-//         }
-//     ;
-//
-//     function loadImage(el, fn) {
-//         var img = new Image()
-//             , src = el.getAttribute('data-src');
-//         img.onload = function () {
-//             if (!!el.parent)
-//                 el.parent.replaceChild(img, el)
-//             else
-//                 el.src = src;
-//
-//             fn ? fn() : null;
-//         }
-//         img.src = src;
-//     }
-//
-//     function elementInViewport(el) {
-//         var rect = el.getBoundingClientRect()
-//
-//         return (
-//             rect.top >= 0
-//             && rect.left >= 0
-//             && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
-//         )
-//     }
-//
-//     var images = new Array()
-//         , query = $q('img.lazy')
-//         , processScroll = function () {
-//             for (var i = 0; i < images.length; i++) {
-//                 if (elementInViewport(images[i])) {
-//                     loadImage(images[i], function () {
-//                         images.splice(i, i);
-//                     });
-//                 }
-//             }
-//             ;
-//         }
-//     ;
-//     // Array.prototype.slice.call is not callable under our lovely IE8
-//     for (var i = 0; i < query.length; i++) {
-//         images.push(query[i]);
-//     }
-//     ;
-//
-//     processScroll();
-//     addEventListener('scroll', processScroll);
-//
-// }(this);
 
 /***/ }),
 
