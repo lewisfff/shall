@@ -4,9 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var windowHeight = window.innerHeight;
         var containerWidth =  document.querySelector('.image').clientWidth;
         images.forEach(img => {
-            if (parseInt(img.style.height, 10) > windowHeight) {
+            if (img.getAttribute('height') > windowHeight) {
+                console.log('clamping');
                 img.style.height = windowHeight + 'px';
             } else {
+                console.log ('not clamping');
                 var ratio = parseInt(img.width, 10) / parseInt(img.height, 10);
                 img.style.height = containerWidth / ratio + 'px';
             }

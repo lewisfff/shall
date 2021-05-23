@@ -17,7 +17,7 @@
                              data-src="{{ '/storage/' . $photo }}"
                              loading="lazy"
                              alt="{{ $photo }}"
-                             width="{{ $meta->$photo->width }}px" height="{{ $meta->$photo->height }}px"
+                             width="{{ $meta->$photo->width }}" height="{{ $meta->$photo->height }}"
                              style="background-image: url('{{ '/thumbnail/' . $photo }}')">
                     </a>
                 </div>
