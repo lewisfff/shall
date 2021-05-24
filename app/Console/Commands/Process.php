@@ -50,7 +50,11 @@ class Process extends Command
         $directories = Storage::disk('photos')->allDirectories();
         $photos = Storage::disk('photos')->allFiles();
         $image_width = Config::get('photo.width');
-        $json = [];
+        if (Storage::get('photos.json') !== null) {
+            $json = json_decode(Storage::get('photos.json'));
+        } else {
+            $json = [];
+        }
 
         foreach ($directories as $directory) {
             Storage::disk('public')->makeDirectory($directory);
