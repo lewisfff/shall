@@ -74,7 +74,7 @@ class Process extends Command
 
                 $image->save(public_path() . '/storage/' . $photo, 88, 'jpg');
 
-                $json[$photo] = [
+                $json->{$photo} = [
                     'height' => $image->height(),
                     'width' => $image_width,
                 ];
