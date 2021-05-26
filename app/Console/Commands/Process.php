@@ -50,6 +50,8 @@ class Process extends Command
         $directories = Storage::disk('photos')->allDirectories();
         $photos = Storage::disk('photos')->allFiles();
         $image_width = Config::get('photo.width');
+        $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'];
+
         if (Storage::get('photos.json') !== null) {
             $json = json_decode(Storage::get('photos.json'));
         } else {
@@ -63,26 +65,29 @@ class Process extends Command
 
         foreach ($photos as $photo) {
             if (Storage::disk('public')->missing($photo) || Storage::disk('thumbnail')->missing($photo)) {
-                $this->info('Processing photo ' . $photo);
-
                 $source_photo = Storage::disk('photos')->path($photo);
-                $image = $this->manager->make($source_photo);
-                $image->orientate();
-                $image->resize($image_width, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
+                $contentType = mime_content_type($source_photo);
+                if (in_array($contentType, $allowedMimeTypes)) {
+                    $this->info('Processing photo ' . $photo);
 
-                $image->save(public_path() . '/storage/' . $photo, 88, 'jpg');
+                    $image = $this->manager->make($source_photo);
+                    $image->orientate();
+                    $image->resize($image_width, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
 
-                $json->{$photo} = [
-                    'height' => $image->height(),
-                    'width' => $image_width,
-                ];
+                    $image->save(public_path() . '/storage/' . $photo, 88, 'jpg');
 
-                $image->resize($image_width / 10, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $image->save(storage_path() . '/app/thumbnail/' . $photo, 77, 'jpg');
+                    $json->{$photo} = [
+                        'height' => $image->height(),
+                        'width' => $image_width,
+                    ];
+
+                    $image->resize($image_width / 10, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $image->save(storage_path() . '/app/thumbnail/' . $photo, 77, 'jpg');
+                }
             }
         }
 
