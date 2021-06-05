@@ -51,12 +51,7 @@ class Process extends Command
         $photos = Storage::disk('photos')->allFiles();
         $image_width = Config::get('photo.width');
         $allowedMimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/svg+xml'];
-
-        if (Storage::get('photos.json') !== null) {
-            $json = json_decode(Storage::get('photos.json'));
-        } else {
-            $json = [];
-        }
+        $json = (object)[];
 
         foreach ($directories as $directory) {
             Storage::disk('public')->makeDirectory($directory);
@@ -64,25 +59,29 @@ class Process extends Command
         }
 
         foreach ($photos as $photo) {
-            if (Storage::disk('public')->missing($photo) || Storage::disk('thumbnail')->missing($photo)) {
-                $source_photo = Storage::disk('photos')->path($photo);
-                $contentType = mime_content_type($source_photo);
-                if (in_array($contentType, $allowedMimeTypes)) {
-                    $this->info('Processing photo ' . $photo);
 
+            $source_photo = Storage::disk('photos')->path($photo);
+            $contentType = mime_content_type($source_photo);
+            if (in_array($contentType, $allowedMimeTypes)) {
+                $this->info('Processing photo ' . $photo);
+
+                if (Storage::disk('public')->missing($photo) || Storage::disk('thumbnail')->missing($photo)) {
                     $image = $this->manager->make($source_photo);
                     $image->orientate();
                     $image->resize($image_width, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
+                } else {
+                    $image = $this->manager->make(Storage::disk('public')->path($photo));
+                }
 
+                $json->{$photo} = [
+                    'height' => $image->height(),
+                    'width' => $image_width,
+                ];
+
+                if (Storage::disk('public')->missing($photo) || Storage::disk('thumbnail')->missing($photo)) {
                     $image->save(public_path() . '/storage/' . $photo, 88, 'jpg');
-
-                    $json->{$photo} = [
-                        'height' => $image->height(),
-                        'width' => $image_width,
-                    ];
-
                     $image->resize($image_width / 10, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
